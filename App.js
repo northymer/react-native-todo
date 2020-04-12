@@ -5,11 +5,9 @@ import { MainScreen } from './src/screens/MainScreen';
 import { TodoScreen } from './src/screens/TodoScreen';
 
 export default function App() {
-  const [todoId, setTodoId] = useState('2')
+  const [todoId, setTodoId] = useState(null)
   const [todos, setTodos] = useState([
     {id: '1', title: 'Create Native App'},
-    {id: '2', title: 'Start Earning More'},
-    {id: '3', title: 'Blank'},
   ])
   
   const addTodo = (title) => {
@@ -46,6 +44,11 @@ export default function App() {
     )
   }
 
+  const editTodo = (id, title) => {
+    const newTodoList = todos.map(todo => todo.id === id ? {id, title} : todo)
+    setTodos(newTodoList)
+  }
+
   const onTodoPress = (id) => {
     setTodoId(id)
   }
@@ -65,7 +68,8 @@ export default function App() {
   const todoScreenProps = {
     removeTodo,
     onPressBack,
-    todo: todoId ? todos.find(({id}) => id === todoId) : null
+    todo: todoId ? todos.find(({id}) => id === todoId) : null,
+    editTodo,
   }
 
   const content = todoId
@@ -83,12 +87,7 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    maxHeight: '100%'
-  },
   content: {
-    flex: 1,
     paddingHorizontal: 30,
     paddingVertical: 20,
   }

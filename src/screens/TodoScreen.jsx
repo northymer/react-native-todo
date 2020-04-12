@@ -1,19 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet, Text, Button } from 'react-native'
 import { THEME } from '../theme/theme'
 import { AppCard } from '../components/AppCard'
+import { EditModal } from '../components/EditModal'
 
 export const TodoScreen = (props) => {
     const {
         removeTodo,
         onPressBack,
         todo,
+        editTodo,
     } = props
+
+    const [modal, setModal] = useState(false)
     return(
         <View style={styles.todoScreen}>
             <AppCard style={styles.card}>
                 <Text style={styles.title}>{todo.title}</Text>
-                <Button title="Edit" />
+                <Button title="Edit" onPress={() => setModal(true)} />
             </AppCard>
             <View style={styles.buttonsWrapper}>
                 <View style={styles.button}>
@@ -23,6 +27,13 @@ export const TodoScreen = (props) => {
                     <Button title="Delete" color={THEME.COLOR_DANGER} onPress={() => removeTodo(todo.id)} />
                 </View>
             </View>
+            <EditModal
+                visible={modal}
+                value={todo.title}
+                onCancel={() => setModal(false)}
+                id={todo.id}
+                onSave={editTodo}
+            />
         </View>
     )
 }
