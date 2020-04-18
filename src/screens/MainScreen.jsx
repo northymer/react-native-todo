@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, Button, FlatList, Image } from 'react-native'
+import React from 'react'
+import { View, StyleSheet, FlatList, Image } from 'react-native'
 import { AddTodo } from '../components/AddTodo'
 import { Todo } from '../components/Todo'
 
@@ -8,7 +8,6 @@ export const MainScreen = (props) => {
         removeTodo,
         addTodo,
         todos,
-        setTodos,
         onTodoPress,
     } = props
 

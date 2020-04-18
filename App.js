@@ -7,8 +7,8 @@ import { MainScreen } from './src/screens/MainScreen';
 import { TodoScreen } from './src/screens/TodoScreen';
 
 async function loadApplication() {
-  console.log('here')
   await Font.loadAsync({
+    'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
     'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf'),
   })
 }
@@ -17,11 +17,15 @@ export default function App() {
   const [isReady, setIsReady] = useState(false)
   const [todoId, setTodoId] = useState(null)
   const [todos, setTodos] = useState([
-    {id: '1', title: 'test'}
+    {id: '1', title: 'React Native App'}
   ])
 
   if (!isReady) {
-    return <AppLoading onError={err => console.log(err)} startAsync={loadApplication} onFinish={() => setIsReady(true)} />
+    return <AppLoading
+      onError={err => console.log(err)}
+      startAsync={loadApplication}
+      onFinish={() => setIsReady(true)}
+    />
   }
   
   const addTodo = (title) => {
