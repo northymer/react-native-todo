@@ -39,9 +39,6 @@ export const TodoScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
-    todoScreen: {
-        flex: 1,
-    },
     buttonsWrapper: {
         flexDirection: 'row',
         justifyContent: 'space-between'
