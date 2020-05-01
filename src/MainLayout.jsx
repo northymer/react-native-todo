@@ -1,74 +1,74 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { NavBar } from './components/NavBar';
 import { THEME } from './theme/theme';
 import { MainScreen } from './screens/MainScreen';
 import { TodoScreen } from './screens/TodoScreen';
+import { TodoContext } from './context/todo/todoContext';
 
 export const MainLayout = (props) => {
+    const { todos, addTodo, removeTodo, updateTodo } = useContext(TodoContext)
     const [todoId, setTodoId] = useState(null)
-    const [todos, setTodos] = useState([])
 
-    const addTodo = (title) => {
-        setTodos(prev => [
-          ...prev,
-          {
-            id: Date.now().toString(),
-            title,
-          },
-        ])
-      }
+    // const addTodo = (title) => {
+    //     setTodos(prev => [
+    //       ...prev,
+    //       {
+    //         id: Date.now().toString(),
+    //         title,
+    //       },
+    //     ])
+    //   }
     
-    const removeTodo = (id) => {
-    // Works on both Android and iOS
-    const todo = todos.find(todo => todo.id === id)
-    Alert.alert(
-        'Deleting of element',
-        `Are you sure you want to delete ${todo.title}?`,
-        [
-        {
-            text: 'Cancel',
-            style: 'cancel',
-        },
-        {
-            text: 'Delete',
-            style: 'destructive',
-            onPress: () => {
-            setTodoId(null)
-            setTodos(prev => prev.filter(todo => todo.id !== id))
-            }
-        },
-        ],
-        {cancelable: false},
-    )
-    }
+    // const removeTodo = (id) => {
+    // // Works on both Android and iOS
+    // const todo = todos.find(todo => todo.id === id)
+    // Alert.alert(
+    //     'Deleting of element',
+    //     `Are you sure you want to delete ${todo.title}?`,
+    //     [
+    //     {
+    //         text: 'Cancel',
+    //         style: 'cancel',
+    //     },
+    //     {
+    //         text: 'Delete',
+    //         style: 'destructive',
+    //         onPress: () => {
+    //         setTodoId(null)
+    //         setTodos(prev => prev.filter(todo => todo.id !== id))
+    //         }
+    //     },
+    //     ],
+    //     {cancelable: false},
+    // )
+    // }
 
-    const editTodo = (id, title) => {
-    const newTodoList = todos.map(todo => todo.id === id ? {id, title} : todo)
-    setTodos(newTodoList)
-    }
+    // const editTodo = (id, title) => {
+    //     const newTodoList = todos.map(todo => todo.id === id ? {id, title} : todo)
+    //     setTodos(newTodoList)
+    // }
 
     const onTodoPress = (id) => {
-    setTodoId(id)
+        setTodoId(id)
     }
 
     const onPressBack = () => {
-    setTodoId(null)
+        setTodoId(null)
     }
 
     const mainScreenProps = {
-    todos,
-    addTodo,
-    removeTodo,
-    setTodos,
-    onTodoPress,
+        todos,
+        addTodo,
+        removeTodo,
+        onTodoPress,
     }
 
     const todoScreenProps = {
-    removeTodo,
-    onPressBack,
-    todo: todoId ? todos.find(({id}) => id === todoId) : null,
-    editTodo,
+        removeTodo,
+        onPressBack,
+        todo: todoId ? todos.find(({id}) => id === todoId) : null,
+        updateTodo,
     }
 
     const content = todoId

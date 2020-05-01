@@ -12,7 +12,7 @@ export const TodoScreen = (props) => {
         removeTodo,
         onPressBack,
         todo,
-        editTodo,
+        updateTodo,
     } = props
 
     const [modal, setModal] = useState(false)
@@ -41,7 +41,7 @@ export const TodoScreen = (props) => {
                 value={todo.title}
                 onCancel={() => setModal(false)}
                 id={todo.id}
-                onSave={editTodo}
+                onSave={updateTodo}
             />
         </View>
     )
