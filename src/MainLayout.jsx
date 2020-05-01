@@ -1,10 +1,9 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { NavBar } from './components/NavBar';
 import { THEME } from './theme/theme';
 import { MainScreen } from './screens/MainScreen';
 import { TodoScreen } from './screens/TodoScreen';
-import { TodoContext } from './context/todo/todoContext';
 import { ScreenContext } from './context/screen/screenContext';
 
 export const MainLayout = (props) => {
