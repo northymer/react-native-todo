@@ -6,11 +6,11 @@ import { AppButton } from './AppButton'
 export const EditModal = ({ visible, onCancel, value, onSave, id }) => {
     const [title, setTitle] = useState(value)
 
-    const saveHandler = () => {
+    const saveHandler = async () => {
         if (title.trim().length === 0) {
             Alert.alert('Text should not be empty')
         } else {
-            onSave(id, title)
+            await onSave(id, title)
             onCancel()
         }
     }

@@ -1,16 +1,25 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { View, StyleSheet, FlatList, Image, Dimensions } from 'react-native'
 import { AddTodo } from '../components/AddTodo'
 import { Todo } from '../components/Todo'
 import { THEME } from '../theme/theme'
 import { TodoContext } from '../context/todo/todoContext'
 import { ScreenContext } from '../context/screen/screenContext'
+import { AppLoader } from '../components/AppLoader'
+import { AppTextRegular } from '../components/AppTextRegular'
+import { AppButton } from '../components/AppButton'
 
 export const MainScreen = (props) => {
-    const { addTodo, todos, removeTodo,  } =  useContext(TodoContext)
+    const { addTodo, todos, removeTodo, fetchTodos, loading, error } =  useContext(TodoContext)
     const { changeScreen } = useContext(ScreenContext)
 
     const [deviceWidth, setDeficeWidth] = useState(Dimensions.get('window').width - THEME.PADDING_HORIZONTAL * 2)
+
+    const loadTodos = useCallback(async () => await fetchTodos(), [fetchTodos])
+
+    useEffect(() => {
+        loadTodos()
+    }, [])
 
     useEffect(() => {
         const update = () => {
@@ -20,6 +29,20 @@ export const MainScreen = (props) => {
         Dimensions.addEventListener('change', update)
         return () => Dimensions.removeEventListener('change', update)
     })
+
+    if (loading) {
+        return <AppLoader />
+    }
+
+    if (error) {
+        return (
+            <View style={styles.center}>
+                <AppTextRegular style={styles.error}>
+                    {error}
+                </AppTextRegular>
+                <AppButton onPress={loadTodos}>Retry</AppButton>
+            </View>)
+    }
 
     const content = todos.length
         ? (<View style={{ width: deviceWidth }}><FlatList
@@ -54,5 +77,15 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
         resizeMode: 'contain'
+    },
+    center: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    error: {
+        fontSize: 20,
+        marginBottom: 10,
+        color: THEME.COLOR_DANGER,
     }
 })
